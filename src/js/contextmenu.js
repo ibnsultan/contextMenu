@@ -1,6 +1,5 @@
 const ContextMenuLib = (() => {
   let activeMenu = null;
-  let touchTimeout = null;
 
   const init = () => {
     // Find all elements that have a context menu target
@@ -9,25 +8,55 @@ const ContextMenuLib = (() => {
       const targetMenu = document.querySelector(targetMenuSelector);
 
       if (targetMenu) {
-        // Add right-click listener for desktop
+        // Add right-click listener
         toggleElement.addEventListener('contextmenu', (event) => {
           event.preventDefault();
+          bindDataToMenu(toggleElement, targetMenu);
           showMenu(event, targetMenu);
         });
 
-        // Add touch support for mobile
+        // Add touch support for double-finger tap
         toggleElement.addEventListener('touchstart', (event) => {
-          handleTouchStart(event, targetMenu);
+          if (event.touches.length === 2) {
+            event.preventDefault();
+            bindDataToMenu(toggleElement, targetMenu);
+            showMenu(event, targetMenu);
+          }
         });
-
-        toggleElement.addEventListener('touchend', handleTouchEnd);
-        toggleElement.addEventListener('touchmove', handleTouchMove);
       }
     });
 
-    // Hide the menu when clicking or tapping elsewhere
+    // Hide the menu when clicking anywhere else
     document.addEventListener('click', hideMenu);
-    document.addEventListener('touchstart', hideMenu);
+
+    // Attach click listeners to menu items
+    document.querySelectorAll('.context-menu-dialog ul li').forEach(menuItem => {
+      menuItem.addEventListener('click', () => {
+        if (activeMenu) executeCallback(menuItem, activeMenu);
+      });
+    });
+  };
+
+  // Bind data from data-cm-bind to the context menu
+  const bindDataToMenu = (toggleElement, menuElement) => {
+    const bindData = toggleElement.getAttribute('data-cm-bind');
+
+    if (bindData) {
+      // Parse the JSON-like string (since it's technically a string in an attribute)
+      const parsedData = JSON.parse(bindData);
+      
+      // Store the parsed data directly on the menu element's dataset for consistency
+      menuElement.boundData = parsedData;
+    }
+  };
+
+  // Execute callback function on menu item click
+  const executeCallback = (menuItem, menuElement) => {
+    const callbackName = menuItem.getAttribute('data-cm-callback');
+    if (callbackName && typeof window[callbackName] === 'function') {
+      const boundData = menuElement.boundData || {};  // Retrieve the bound data
+      window[callbackName](boundData);
+    }
   };
 
   const showMenu = (event, menuElement) => {
@@ -54,28 +83,6 @@ const ContextMenuLib = (() => {
     if (activeMenu) {
       activeMenu.style.display = 'none';
       activeMenu = null;
-    }
-  };
-
-  // Handle long press to simulate context menu on touch devices
-  const handleTouchStart = (event, menuElement) => {
-    const touch = event.touches[0];
-    touchTimeout = setTimeout(() => {
-      showMenu(touch, menuElement);
-    }, 500); // Trigger menu after 500ms (long press)
-  };
-
-  const handleTouchEnd = () => {
-    if (touchTimeout) {
-      clearTimeout(touchTimeout);
-      touchTimeout = null;
-    }
-  };
-
-  const handleTouchMove = () => {
-    if (touchTimeout) {
-      clearTimeout(touchTimeout); // Cancel if the user moves their finger
-      touchTimeout = null;
     }
   };
 
