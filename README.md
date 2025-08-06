@@ -51,7 +51,7 @@ Add the `.cm-toggle` class to the elements you want to trigger the context menu,
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Context Menu Example</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ibnsultan/contextmenu@0.1.1/src/css/contextmenu.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ibnsultan/contextmenu/src/css/contextmenu.min.css">
 </head>
 <body>
 
@@ -65,7 +65,7 @@ Add the `.cm-toggle` class to the elements you want to trigger the context menu,
     </ul>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/gh/ibnsultan/contextmenu@0.1.1/src/js/contextmenu.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/ibnsultan/contextmenu/src/js/contextmenu.min.js"></script>
 
 </body>
 </html>
