@@ -16,12 +16,12 @@ You can include the library in your project using jsDelivr CDN.
 
 ### JavaScript
 ```html
-<script src="https://cdn.jsdelivr.net/gh/ibnsultan/contextmenu@0.1.1/src/js/contextmenu.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/ibnsultan/contextmenu@0.1.4/src/js/contextmenu.min.js"></script>
 ```
 
 ### CSS
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ibnsultan/contextmenu@0.1.1/src/css/contextmenu.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ibnsultan/contextmenu@0.1.4/src/css/contextmenu.min.css">
 ```
 
 ## Usage
